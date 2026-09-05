@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box, Typography, Skeleton } from "@mui/material";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "./Auth";
 import ListingCard from "./ListingCard";
@@ -55,51 +55,47 @@ function Favorites() {
     <main className="site-shell">
       <section className="listings-section">
         <Box component={Link} to={"/"}>
-          <Button
-            variant="outlined"
-            sx={{ borderColor: `black`, color: `black`, marginBottom: 4 }}
-            startIcon={<ArrowBackIcon />}
-          >
+          <Button variant="outlined" sx={{ borderColor: `black`, color: `black`, marginBottom: 4 }} startIcon={<ArrowBackIcon />}>
             Back
           </Button>
         </Box>
         <Typography
           variant="h3"
-          sx={{
-            fontWeight: 800,
-            mb: 4,
-          }}
+          sx={{ fontWeight: 800, mb: 4, }}
         >
           My Favorites
         </Typography>
-
-        {loading && <Typography>Loading...</Typography>}
-
+        {loading ? (<div className="listing-grid">
+          {new Array(4).fill(0).map((_, i) => (
+            <div className="card" key={i}>
+              <Skeleton variant="rectangular" height={180} style={{ width: '100%', borderRadius: `16px` }} />
+              <Box sx={{ pt: 1.5, width: '100%' }}>
+                <Skeleton variant="text" width="60%" height={24} />
+                <Skeleton variant="text" width="40%" height={20} />
+              </Box>
+            </div>
+          ))}
+        </div>)
+          :
+          (
+            <div className="listing-grid">
+              {favorites.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} onFavorite={handleRemoveFavorite} />
+              ))}
+            </div>
+          )
+        }
         {!loading && favorites.length === 0 && (
           <Box sx={{ textAlign: "center", py: 8 }}>
             <Typography variant="h5" sx={{ mb: 2 }}>
               No favorite listings yet
             </Typography>
-
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => navigate("/")}
-            >
+            <Button variant="contained" color="error" onClick={() => navigate("/")}>
               View Listings
             </Button>
           </Box>
         )}
 
-        <div className="listing-grid">
-          {favorites.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              listing={listing}
-              onFavorite={handleRemoveFavorite}
-            />
-          ))}
-        </div>
       </section>
     </main>
   );

@@ -48,14 +48,12 @@ function SiteHeader({ search, onSearchChange }) {
   const open = Boolean(anchorEl);
   const [openLogOut, setOpenLogOut] = useState(false);
 
-  const { data } = useQuery(ME_QUERY, {
-    skip: !accessToken,
-  });
+  const { data } = useQuery(ME_QUERY);
 
   const profileUser = data?.me || user;
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (value) => {
+    setAnchorEl(value.currentTarget);
   };
 
   const handleClose = () => {
@@ -77,14 +75,7 @@ function SiteHeader({ search, onSearchChange }) {
       }}
     >
       <LogOutConfirm open={openLogOut} setOpenLogOut={setOpenLogOut} />
-
-      <Toolbar
-        sx={{
-          height: 80,
-          px: { xs: 2.5, md: 5 },
-          justifyContent: "space-between",
-        }}
-      >
+      <Toolbar sx={{ height: 80, px: { xs: 2.5, md: 5 }, justifyContent: "space-between", }}>
         <Box
           component={Link}
           to="/"
@@ -95,25 +86,9 @@ function SiteHeader({ search, onSearchChange }) {
             gap: 1,
           }}
         >
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemnJfS6fLmDnT9rMedVNHiPRp-Ur9kov8GsZnzLSpQQ&s=10"
-            alt="Logo"
-            style={{
-              maxWidth: "120px",
-              width: "100%",
-            }}
-          />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRemnJfS6fLmDnT9rMedVNHiPRp-Ur9kov8GsZnzLSpQQ&s=10" alt="Logo" style={{ maxWidth: "120px", width: "100%", }} />
         </Box>
-
-        <Box
-          component="nav"
-          sx={{
-            display: { xs: "none", md: "flex" },
-            gap: 3,
-            ml: 6,
-          }}
-          aria-label="Main navigation"
-        >
+        <Box component="nav" sx={{ display: { xs: "none", md: "flex" }, gap: 3, ml: 6, }} aria-label="Main navigation" >
           <TextField
             placeholder="Search destinations"
             value={search}
@@ -140,14 +115,7 @@ function SiteHeader({ search, onSearchChange }) {
             }}
           />
         </Box>
-
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{
-            alignItems: "center",
-          }}
-        >
+        <Stack direction="row" spacing={2} sx={{ alignItems: "center", }}>
           {!accessToken && (
             <Button
               component={Link}
@@ -170,39 +138,17 @@ function SiteHeader({ search, onSearchChange }) {
               Log in or sign up
             </Button>
           )}
-
           {profileUser && (
             <React.Fragment>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              >
+              <Box sx={{ display: "flex", alignItems: "center", textAlign: "center", }} >
                 <Tooltip title="Account settings">
-                  <IconButton
-                    onClick={handleClick}
-                    size="small"
-                    sx={{ ml: 2 }}
-                    aria-controls={open ? "account-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                  >
-                    <Avatar
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: deepOrange[500],
-                        cursor: "pointer",
-                      }}
-                    >
+                  <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} aria-controls={open ? "account-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined}>
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: deepOrange[500], cursor: "pointer", }}>
                       {profileUser?.name?.slice(0, 1).toUpperCase()}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
               </Box>
-
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -217,14 +163,12 @@ function SiteHeader({ search, onSearchChange }) {
                       overflow: "visible",
                       filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                       mt: 1.5,
-
                       "& .MuiAvatar-root": {
                         width: 32,
                         height: 32,
                         ml: -0.5,
                         mr: 1,
                       },
-
                       "&::before": {
                         content: '""',
                         display: "block",
@@ -239,67 +183,27 @@ function SiteHeader({ search, onSearchChange }) {
                       },
                     },
                   },
-                }}
-                transformOrigin={{
-                  horizontal: "right",
-                  vertical: "top",
-                }}
-                anchorOrigin={{
-                  horizontal: "right",
-                  vertical: "bottom",
-                }}
+                }} transformOrigin={{ horizontal: "right", vertical: "top", }} anchorOrigin={{ horizontal: "right", vertical: "bottom", }}
               >
-                <MenuItem
-                  sx={{
-                    cursor: "default",
-                    "&:hover": {
-                      backgroundColor: "transparent",
-                    },
-                  }}
-                >
+                <MenuItem sx={{ cursor: "default", "&:hover": { backgroundColor: "transparent", }, }}>
                   <ListItemIcon>
                     <PersonIcon fontSize="small" />
                   </ListItemIcon>
-
-                  <ListItemText
-                    primary="Full Name"
-                    secondary={profileUser?.name}
-                  />
+                  <ListItemText primary="Full Name" secondary={profileUser?.name} />
                 </MenuItem>
-
                 <MenuItem
-                  sx={{
-                    cursor: "default",
-                    "&:hover": {
-                      backgroundColor: "transparent",
-                    },
-                  }}
-                >
+                  sx={{ cursor: "default", "&:hover": { backgroundColor: "transparent", }, }}>
                   <ListItemIcon>
                     <EmailIcon fontSize="small" />
                   </ListItemIcon>
-
-                  <ListItemText
-                    primary="Email"
-                    secondary={profileUser?.email}
-                  />
+                  <ListItemText primary="Email" secondary={profileUser?.email} />
                 </MenuItem>
-
-                <MenuItem
-                  sx={{
-                    cursor: "default",
-                    "&:hover": {
-                      backgroundColor: "transparent",
-                    },
-                  }}
-                >
+                <MenuItem sx={{ cursor: "default", "&:hover": { backgroundColor: "transparent", }, }}>
                   <ListItemIcon>
                     <BadgeIcon fontSize="small" />
                   </ListItemIcon>
-
                   <ListItemText primary="User ID" secondary={profileUser?.id} />
                 </MenuItem>
-
                 <MenuItem onClick={handleLogOut}>
                   <ListItemIcon>
                     <Logout fontSize="small" />

@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Details from "./components/Details";
 import Favorites from "./components/Favorites";
 import Bookings from "./components/Bookings";
+import { useEffect } from "react";
 
 function App() {
   const isRegisterOpen = true;

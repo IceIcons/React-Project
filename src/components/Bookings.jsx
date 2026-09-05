@@ -46,9 +46,7 @@ function Bookings() {
   const getNights = (checkIn, checkOut) => {
     const firstDate = new Date(checkIn);
     const secondDate = new Date(checkOut);
-
     const difference = secondDate - firstDate;
-
     return Math.ceil(difference / (1000 * 60 * 60 * 24));
   };
 
@@ -79,25 +77,16 @@ function Bookings() {
             Back
           </Button>
         </Box>
-        <Typography
-          variant="h3"
-          sx={{
-            fontWeight: 800,
-            mb: 4,
-          }}
-        >
+        <Typography variant="h3" sx={{ fontWeight: 800, mb: 4, }}>
           My Bookings
         </Typography>
-
         {loading && (
           <Stack spacing={3}>
             <Skeleton variant="rectangular" height={180} />
             <Skeleton variant="rectangular" height={180} />
           </Stack>
         )}
-
         {error && <Typography color="error">{error.message}</Typography>}
-
         {!loading && bookings.length === 0 && (
           <Box sx={{ textAlign: "center", py: 8 }}>
             <Typography variant="h5" sx={{ mb: 2 }}>
@@ -113,80 +102,30 @@ function Bookings() {
             </Button>
           </Box>
         )}
-
         <Stack spacing={3}>
           {bookings.map((booking) => {
             const nights = getNights(booking.checkIn, booking.checkOut);
-
             const totalPrice = nights * booking.listing.pricePerNight;
-
             return (
-              <Box
-                key={booking.id}
-                sx={{
-                  display: "flex",
-                  gap: 3,
-                  border: "1px solid #ddd",
-                  borderRadius: "18px",
-                  p: 2,
-                  flexDirection: {
-                    xs: "column",
-                    sm: "row",
-                  },
-                }}
-              >
-                <img
-                  src={booking.listing.images?.[0]}
-                  alt={booking.listing.title}
-                  style={{
-                    width: "220px",
-                    height: "160px",
-                    objectFit: "cover",
-                    borderRadius: "12px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate(`/listings/${booking.listing.id}`)}
-                />
-
+              <Box key={booking.id} sx={{ display: "flex", gap: 3, border: "1px solid #ddd", borderRadius: "18px", p: 2, flexDirection: { xs: "column", sm: "row", }, }}>
+                <img src={booking.listing.images?.[0]} alt={booking.listing.title} style={{ width: "220px", height: "160px", objectFit: "cover", borderRadius: "12px", cursor: "pointer", }} onClick={() => navigate(`/listings/${booking.listing.id}`)} />
                 <Box sx={{ flex: 1 }}>
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: 700,
-                        cursor: "pointer",
-                      }}
-                      onClick={() =>
-                        navigate(`/listings/${booking.listing.id}`)
-                      }
-                    >
+                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                    <Typography variant="h6" sx={{ fontWeight: 700, cursor: "pointer", }} onClick={() => navigate(`/listings/${booking.listing.id}`)} >
                       {booking.listing.title}
                     </Typography>
-
-                    <Chip
-                      label={booking.status}
-                      color={
-                        booking.status === "CONFIRMED" ? "success" : "default"
-                      }
-                    />
+                    <Chip label={booking.status} color={booking.status === "CONFIRMED" ? "success" : "default"} />
                   </Stack>
-
                   <Typography sx={{ color: "#717171", mt: 1 }}>
                     {booking.listing.location}
                   </Typography>
-
                   <Typography sx={{ mt: 2 }}>
-                    📅 {booking.checkIn} — {booking.checkOut}
+                    {booking.checkIn} — {booking.checkOut}
                   </Typography>
 
                   <Typography sx={{ mt: 1 }}>
-                    👥 {booking.guests} guests · {nights} nights
+                    {booking.guests} guests · {nights} nights
                   </Typography>
-
                   <Typography
                     variant="h6"
                     sx={{
@@ -196,7 +135,6 @@ function Bookings() {
                   >
                     Total: ${totalPrice}
                   </Typography>
-
                   {booking.status === "CONFIRMED" && (
                     <Button
                       variant="outlined"
