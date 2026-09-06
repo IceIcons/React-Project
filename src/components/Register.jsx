@@ -52,7 +52,7 @@ function Register({ open }) {
 
   const handleRegisterCompleted = (data) => {
     toast.success(`Registered Succesfully!`);
-    navigate(-1);
+    navigate(`/`);
     setAccessToken(data?.register?.accessToken);
     setUser(data?.register?.user);
   };
