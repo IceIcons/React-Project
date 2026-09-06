@@ -108,7 +108,7 @@ function Listings({ search }) {
           {error && (
             <Stack spacing={2}>
               <p>Didn't recieve anything?</p>
-              <Button onClick={() => window.refre} size="small" sx={{ maxWidth: `200px`, width: `100%` }} variant="outlined">Reload Now!</Button>
+              <Button onClick={() => window.location.reload()} size="small" sx={{ maxWidth: `200px`, width: `100%` }} variant="outlined">Reload Now!</Button>
             </Stack>
           )}
           {data?.listings?.pagination?.total == 0 && (
