@@ -10,11 +10,6 @@ function Home() {
     <main className="site-shell">
       <SiteHeader search={search} onSearchChange={setSearch} />
       <Listings search={search} />
-      <div className="home-action">
-        <Link to={`/register`}>
-          <Button variant="contained">Register</Button>
-        </Link>
-      </div>
     </main>
   );
 }
