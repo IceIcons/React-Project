@@ -66,7 +66,7 @@ function SiteHeader({ search, onSearchChange }) {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       color="inherit"
       elevation={0}
       sx={{
