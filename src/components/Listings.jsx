@@ -4,10 +4,11 @@ import { useState } from "react";
 import ListingCard from "./ListingCard";
 import ListingsToolbar from "./ListingsToolbar";
 import Pagination from "./Pagination";
-import { Box, Grid, Skeleton, Stack } from "@mui/material";
+import { Box, Button, Grid, Skeleton, Stack } from "@mui/material";
 import { useAuth } from "./Auth";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import Footer from "./Footer";
 
 const listingsQuery = gql`
   query Listings($limit: Int, $page: Int, $search: String) {
@@ -63,55 +64,63 @@ function Listings({ search }) {
   console.log(page);
 
   return (
-    <section className="listings-section">
-      <ListingsToolbar />
-      <div className="listing-grid">
-        {loading ? (
-          <div className="listing-grid">
-            {new Array(8).fill(0).map((_, i) => (
-              <div className="card" key={i}>
-                <Skeleton variant="rectangular" height={180} style={{ width: '100%', borderRadius: `16px` }} />
-                <Box sx={{ pt: 1.5, width: '100%' }}>
-                  <Skeleton variant="text" width="60%" height={24} />
-                  <Skeleton variant="text" width="40%" height={20} />
-                </Box>
-              </div>
-            ))}
-          </div>
-        ) : (
-          data?.listings?.items?.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              listing={listing}
-              onFavorite={(listingId) => {
-                if (!accessToken) {
-                  navigate(`/login`)
-                }
-                else {
-                  if (listing?.isFavorite) {
-                    removeFavorite({ variables: { listingId } })
-                    toast.success("Removed from favorites");
+    <div>
+      <section className="listings-section">
+        <ListingsToolbar />
+        <div className="listing-grid">
+          {loading ? (
+            <div className="listing-grid">
+              {new Array(8).fill(0).map((_, i) => (
+                <div className="card" key={i}>
+                  <Skeleton variant="rectangular" height={180} style={{ width: '100%', borderRadius: `16px` }} />
+                  <Box sx={{ pt: 1.5, width: '100%' }}>
+                    <Skeleton variant="text" width="60%" height={24} />
+                    <Skeleton variant="text" width="40%" height={20} />
+                  </Box>
+                </div>
+              ))}
+            </div>
+          ) : (
+            data?.listings?.items?.map((listing) => (
+              <ListingCard
+                key={listing.id}
+                listing={listing}
+                onFavorite={(listingId) => {
+                  if (!accessToken) {
+                    navigate(`/login`)
                   }
                   else {
-                    addFavorite({ variables: { listingId } })
-                    toast.success("Added to favorites");
+                    if (listing?.isFavorite) {
+                      removeFavorite({ variables: { listingId } })
+                      toast.success("Removed from favorites");
+                    }
+                    else {
+                      addFavorite({ variables: { listingId } })
+                      toast.success("Added to favorites");
+                    }
                   }
                 }
-              }
-              }
-            />
-          ))
+                }
+              />
+            ))
 
+          )}
+          {error && (
+            <Stack spacing={2}>
+              <p>Didn't recieve anything?</p>
+              <Button onClick={() => window.refre} size="small" sx={{ maxWidth: `200px`, width: `100%` }} variant="outlined">Reload Now!</Button>
+            </Stack>
+          )}
+          {data?.listings?.pagination?.total == 0 && (
+            <h2 className="listing-message">No Results</h2>
+          )}
+        </div>
+        {!loading && (
+          <Pagination page={page} count={totalPages} currentPage={page} showFirstButton totalPages={totalPages} onPageChange={setPage} />
         )}
-        {error && <p className="listing-message">{error.message}</p>}
-        {data?.listings?.pagination.total == 0 && (
-          <h2 className="listing-message">No Results</h2>
-        )}
-      </div>
-      {!loading && (
-        <Pagination page={page} count={totalPages} currentPage={page} showFirstButton totalPages={totalPages} onPageChange={setPage} />
-      )}
-    </section>
+      </section>
+      <Footer />
+    </div>
   );
 }
 export default Listings;

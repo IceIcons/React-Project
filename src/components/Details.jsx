@@ -209,7 +209,7 @@ function Details() {
     return (
       <Box sx={{ p: 5, textAlign: "center" }}>
         <Typography variant="h5">Listing not found</Typography>
-        <Button onClick={() => navigate("/listings")} sx={{ mt: 2 }}>
+        <Button onClick={() => navigate("/")} sx={{ mt: 2 }}>
           View listings
         </Button>
       </Box>
@@ -285,9 +285,9 @@ function Details() {
             ${listing.pricePerNight} night
           </Typography>
           <Stack spacing={2} sx={{ mt: 3 }}>
-            <TextField label="Check in" type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
-            <TextField label="Check out" type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} InputLabelProps={{ shrink: true, }} />
-            <TextField label="Guests" type="number" value={guests} onChange={(e) => setGuests(Number(e.target.value))} inputProps={{ min: 1, max: listing.guests, }} />
+            <TextField type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
+            <TextField type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} InputLabelProps={{ shrink: true, }} />
+            <TextField type="number" value={guests} onChange={(e) => setGuests(Number(e.target.value))} inputProps={{ min: 1, max: listing.guests, }} />
           </Stack>
           {nights > 0 && (
             <Box sx={{ mt: 3 }}>

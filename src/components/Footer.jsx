@@ -1,8 +1,7 @@
 import { Grid } from "@mui/material"
-
+import '../App.css'
 const Footer = () => {
     return (
-        <>
             <Grid className="footerWrapper">
                 <Grid container spacing={3} className="footer">
                     <Grid size={1} className="footerBox">
@@ -52,7 +51,6 @@ const Footer = () => {
                     </Grid>
                 </Grid>
             </Grid>
-        </>
     )
 }
 
