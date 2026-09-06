@@ -64,7 +64,7 @@ function Listings({ search }) {
   console.log(page);
 
   return (
-    <div>
+    <div style={{marginTop: `50px`}}>
       <section className="listings-section">
         <ListingsToolbar />
         <div className="listing-grid">
